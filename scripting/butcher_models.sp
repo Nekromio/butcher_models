@@ -34,7 +34,7 @@ public Plugin myinfo =
 	name = "[Butcher Core] Set models",
 	author = "Nek.'a 2x2 | ggwp.site ",
 	description = "Установка модели Мяснику",
-	version = "1.0.0",
+	version = "1.0.1",
 	url = "https://ggwp.site/"
 };
 
@@ -67,7 +67,7 @@ public void OnMapStart()
 	}
 }
 
-void Event_PlayerSpawn(Handle hEvent, const char[] name, bool dontBroadcast)
+void Event_PlayerSpawn(Event hEvent, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(hEvent, "userid"));
 	
@@ -85,6 +85,9 @@ public void BUTCHER_ActiveStart(int client)
 Action SetModelTimer(Handle hTimer, int UserId)
 {
 	int client = GetClientOfUserId(UserId);
+
+	if(!IsValidClient(client))
+		return Plugin_Continue;
 
 	if(GetClientTeam(client) == 2 && sModels[0][0])
 		SetEntityModel(client, sModels[0]);
@@ -121,7 +124,7 @@ void SwitchTeam(int client, int iTeam)
 	SetEntityModel(client, sModel[1]);
 }
 
-stock bool IsValidClient(int client)
+bool IsValidClient(int client)
 {
 	return 0 < client <= MaxClients && IsClientInGame(client);
 }
